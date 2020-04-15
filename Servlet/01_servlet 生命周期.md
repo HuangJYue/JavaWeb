@@ -5,6 +5,16 @@
 - `destroy()` 终止方法
 - `Servlet`最后由`JVM`垃圾回收器进行垃圾回收
 
+******
+
+生命全过程：
+
+- 加载 `ClassLoader`
+- 实例化 `new`
+- 初始化` init(ServletConfig)`
+- 处理请求 `service` `doGet doPost`
+- 退出服务 `destroy()`
+
 ### `init()` 方法
 
 - 只在第一次创建 Servlet 时被调用，后续用户请求时不在调用
