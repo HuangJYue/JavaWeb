@@ -1,0 +1,199 @@
+### 一、`request`对象
+
+-   封装了由客户端生成的`HTTP`请求的所有细节，主要包括`HTTP`头信息、系统信息、请求方式和请求参数等
+-   通过`request`对象提供的相应方法可以处理客户端浏览器提交的`HTTP`请求中的各项参数
+
+#### 1. 访问请求参数
+
+-   通过超链接形式发送请求时，可以在超链接后面添加`？`来实现为该请求传递参数
+
+```jsp
+<a href="deal.jsp?id=1&user=">处理页</a>
+```
+
+-   当同时指定多个参数，各个参数之间要用`&`隔开
+
+```jsp
+http://localhost:8080/JavaWeb_war_exploded/deal.jsp?id=1&user=huang&pwd=123
+```
+
+-   通过使用`getParameter()`方法获取传递的参数值
+
+```jsp
+<%
+    String id = request.getParameter("id");
+    String user = request.getParameter("user");
+    String pwd = request.getParameter("pwd");
+%>
+```
+  -   若指定的参数不存在，将返回`null`
+  -   若未指定参数值，返回空字符串“”
+
+#### 2. 在作用域中管理属性
+
+-   将一些数据传递到转发后的页面进行处理
+
+-   语法格式：
+
+    ```jsp
+    request.setAttribute(String name, Object object);
+    ```
+
+-   参数说明：
+
+    -   name：表示变量名，String类型，转发后的页面通过这个变量名获取数据
+    -   object：用于指定需要在`request`范围内传递的数据，为`Object`类型
+
+-   获取变量的值：
+
+    ```jsp
+    request.getAttribute(String name);
+    ```
+    -   name：变量名，该变量名在`request`范围内有效
+    
+
+#### 3. 获取`cookie`
+
+-   使用`cookie`可以标识用户身份，记录用户名和密码，追踪重复用户等
+-   浏览器将`cookie`以`key/value`的形式保存到客户机的某个指定目录中
+-   方法：
+    -   `getCookie()`：获取到所有`cookie`对象的集合
+    -   `getNmae()`：获取指定名称的`cookie`
+    -   `getValue()`：获取`cookie`对象的值
+    -   `response`对象中的`addCookie()`方法：将一个`cookie`对象发送到客户端
+
+#### 4. 解决中文乱码
+
+将获取到的数据通过`String`的构造方法使用指定的编码类型重新构造一个`String `对象
+
+```jsp
+<%=new String(request.getParameter("name").getByte("ISO-8859-1"),"UTF-8")%>
+```
+
+#### 5. 获取客户端信息
+
+|           方法            |                             说明                             |
+| :-----------------------: | :----------------------------------------------------------: |
+| `getHeader(String name)`  |                 获得HTTP协议定义的文件头信息                 |
+| `getHeaders(String name)` | 返回指定名字的`request Header`的所有值，其结果是一个枚举型的实例 |
+|   `getHeadersNames（）`   |   返回所有`request Header`的名字，其结果是一个枚举型的实例   |
+|       `getMethod()`       |               获得客户端向服务器传送数据的方法               |
+|      `getProtocol()`      |              获得客户端向服务器端传送数据的方法              |
+|     `getRequestURI()`     |       获得发出请求字符串的客户端地址，不包括请求的参数       |
+|     `getRequestURL()`     |       获得发出请求字符串的客户端地址，不包括请求的参数       |
+|      `getRealPath()`      |                  返回当前请求文件的绝对路径                  |
+|     `getRemoteAddr()`     |                     获取客户端的`ip`地址                     |
+|     `getRemoteHost()`     |                      获取客户端的主机名                      |
+|     `getServerName()`     |                       获取服务器的名字                       |
+|    `getServletPath()`     |             获取客户端所请求的脚本文件的文件路径             |
+|     `getServerPort()`     |                      获取客户端的端口号                      |
+
+### 二、`response`对象
+
+`response`对象用于响应客户请求
+
+#### 1. 重定向
+
+-   `sendRedirect()`方法将网页重定向到另一个页面
+-   重定向可以将地址重定向到不同的主机上
+-   客户端浏览器上将会得到跳转的地址，并重新发送请求链接
+-   重定向操作后，会重新开始一个新的`request`对象
+
+语法：
+
+```jsp
+response.sendRedirect(String path);
+```
+
+**==在`jsp`页面中使用重定向，不要在使用`jsp`脚本代码==**
+
+#### 2. 处理`HTTP`文件头
+
+1.  禁用缓存
+
+    通过设置`HTTP`头的方法实现禁用缓存
+
+    ```jsp
+    <%
+    	respomse.setHeader("Cache-Control","np-store");
+    	response.setDataHeader("Expires", 0);
+    %>
+    ```
+
+2.  设置页面自动刷新
+
+    通过设置`HTTP`头方式实现
+
+    ```jsp
+    <%
+    	response.setHeader("refresh","10"); //10秒刷新
+    %>
+    ```
+
+3.  定时跳转网页
+
+    ```jsp
+    <%
+    	response.setHeader("redresh","5;URL=login.jsp");	// 5秒后自动跳转至login.jsp 页面 
+    %>
+    ```
+
+#### 3. 设置输出缓冲
+
+通常情况下，服务器要输出到客户端的内容要先写到一个输出缓冲区
+
+满足下列三个条件之一，就会把缓冲区内容写到客户端
+
+-   `jsp`页面的输出信息已经全部写入缓冲区
+-   缓冲区已满
+-   `jsp`页面已经调用了`response`对象的`flushBuffer`方法或`out`对象的`flush方法`
+
+|           方法            |                         说明                          |
+| :-----------------------: | :---------------------------------------------------: |
+|      `flushBuffer()`      |            强制将缓冲区的内容输出到客户端             |
+|     `getBufferSize()`     | 获取响应所使用的缓冲区的实际大小，若无缓冲区，返回`0` |
+| `setBufferSize(int size)` |         设置缓冲区大小，若设置为`0`，则不缓冲         |
+|         `reset()`         |        消除缓冲区的内容，同时清除状态码和报头         |
+|      `isCommitted()`      |         检测服务器端是否已经把数据写入客户端          |
+
+### 三、`session`对象
+
+-   `session`可以在页面间进行跳转时，保存用户状态，使整个用户会话一直存在，直至关闭浏览器
+-   若在一个会话中，客户端长时间不向服务器发出请求，`session`对象就会消失
+
+#### 1. 创建及获取客户的会话
+
+-   `setAttribute()`方法
+
+    ```jsp
+    session.setAttribute(String name, Object obj);
+    ```
+
+    **==该方法用于将信息保存在`session`范围内==**
+
+    -   name：用于指定作用域在`session`范围内的变量名
+    -   obj：保存在`session`范围内的对象
+
+    ```jsp
+    session.setAttribute("name","huang");
+    ```
+
+    ==将用户名 `huang` 保存在 `session` 范围内的 `name` 变量中==
+
+-   `getArrtribute()`方法
+
+    该方法用于获取保存在`session`范围内的信息
+
+    ```jsp
+    getAttribute(String name)
+    ```
+
+    ==`name`：指定保存在 `session` 范围内的信息==
+
+    ```jsp
+    session.getAttribute("name");
+    ```
+
+    ==读取保存到`session`范围内的`name`变量的值==
+
+    
