@@ -196,4 +196,58 @@ response.sendRedirect(String path);
 
     ==读取保存到`session`范围内的`name`变量的值==
 
-    
+
+#### 2. 从会话中移动指定的绑定对象
+
+```jsp
+<%
+	session.removeAttribute("name");
+%>
+```
+
+name：用于指定作用域在`session`范围内的变量名。==一定要保证变量在`session`范围内有效==，否则抛出异常
+
+#### 3. 销毁`session`
+
+对于某些实时统计在线人数的网站，需要手动销毁`session`
+
+```jsp
+session.invalidate();
+```
+
+**`session`在销毁后，将不可以在使用该`session`对象，否则抛出异常**
+
+#### 4. 会话超时的管理
+
+`session`的生命周期在`20～30分钟`，当用户首次访问就会产生一个新的对话，服务器就会记住这个对话状态，当绘画生命周期超时或者服务器端强制使会话失效，这个`session`就不能用了
+
+`session`对象中提供的设置会话生命周期的方法：
+
+-   `getLastAccessedTime()`：返回客户端最后一次与会话相关联的请求时间
+-   `getMaxInactiveInterval()`：以秒为单位返回一个会话内两个请求最大时间间隔
+-   `setMaxInactiveInterval()`：以秒为单位设置`session`的有效时间
+
+### 四、`application`对象
+
+-   `application`对象用于保存所有应用程序中的公有数据
+-   服务器启动时自动创建，停止时自动销毁
+-   所有用户都可以共享`application`对象，类似于系统的“全局变量”
+
+#### 1. 访问应用程序初始化参数
+
+在`web.xml`文件中通过`<context-param>`标记配置应用程序初始化参数
+
+```xml
+<context-param>
+        <param-name>namespace</param-name>
+        <param-value></param-value>
+</context-param>
+```
+
+-   `getInitParameter(String name)`方法
+
+```jsp
+application.getInitParameter();	返回已命名的参数值
+// name： 用于指定参数名
+```
+
