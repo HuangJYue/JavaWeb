@@ -230,6 +230,7 @@ session.invalidate();
 ### 四、`application`对象
 
 -   `application`对象用于保存所有应用程序中的公有数据
+-   `application`对象在整个应用区域中都有效
 -   服务器启动时自动创建，停止时自动销毁
 -   所有用户都可以共享`application`对象，类似于系统的“全局变量”
 
@@ -250,4 +251,100 @@ session.invalidate();
 application.getInitParameter();	返回已命名的参数值
 // name： 用于指定参数名
 ```
+
+-   获取`web.xml`文件中配置的`url`参数的值
+
+    ```jsp
+    application.getInitParameter("url");
+    ```
+
+-   `getAttributrNames()`：返回已定义的应用程序初始化参数名的枚举
+
+    ```jsp
+    application.getAttributeNames();
+    ```
+
+#### 2. 管理应用程序环境属性
+
+-   `getAttributeNames()`：获得所有`application`对象使用的属性名
+-   `getAttribute(String name)`：从`application`对象中获取指定对象名
+-   `setAttribute(String key,Object obj)`：使用指定名称和指定对象在`application`对象中进行关联
+-   `removeAttribute(String name)`：从`application`对象中去掉指定名称的属性
+
+### 五、`out`对象
+
+-   用于在`web`浏览器内输出信息，可以输出各种数据类型的数据
+-   在输出非字符串类型的数据时，会自动转换为转换为字符串进行输出
+-   管理应用服务器上的输出缓冲区
+-   `out`对象输出数据时，可以对数据缓冲区进行操作，及时清除缓冲区中的残余数据
+-   数据输出完毕之后，要及时关闭输出流
+
+#### 1. 向客户端输出数据
+
+-   `print()`方法
+
+    该方法等同于使用`jsp`表达式输出信息
+
+    ```jsp
+    <%
+    	out.print("out");
+    %>
+    <%="out"%>
+    ```
+
+-   `println()`方法
+
+    输出内容后，在输出一个换行符
+
+    ```jsp
+    <%
+    	out.println("out");
+    %>
+    ```
+
+-   若想让`println`换行清晰显示，需要将输出的文本使用`HTML`的`<pre>`标记括起来
+
+    ```jsp
+    <pre>
+    	<%
+    		out.println("out");
+    		out.println("out1");
+    	%>
+    </pre>
+    ```
+
+#### 2. 管理响应缓冲
+
+管理缓冲区的方法
+
+|       方法        |                             说明                             |
+| :---------------: | :----------------------------------------------------------: |
+|     `clear()`     |                      清除缓冲区中的内容                      |
+|  `clearBuffer()`  | 清除当前缓冲区的内容； 即使内容已经提交给客户端，也可以访问该方法 |
+|     `flush()`     |                            刷新流                            |
+|  `isAutoFlush()`  |          检测当前缓冲区已满时是自动清空还是抛出异常          |
+| `getBufferSize()` |                       获取缓冲区的大小                       |
+
+### 六、其他内置对象
+
+#### 1. `pageContext()`：获取会话范围（实际很少用）
+
+-   获取页面上下文，可以在`jsp`页面直接使用`pageContext`对象
+-   通过`pageContext`可以获取`jsp`页面的`request、response、session、application、exception`等对象
+
+常用方法：
+
+|                    方法                     |                             说明                             |
+| :-----------------------------------------: | :----------------------------------------------------------: |
+| `forward(java.lang.String relativeUtlpath)` |                    把页面跳转到另一个页面                    |
+|         `getAttribute(String name)`         |                          获取参数值                          |
+|    `getAttributeNamesInScope(int scope)`    | 获取某范围的参数名称的集合，返回值为`java.util.Enumeration`对象 |
+|              `getException()`               |                     返回`Exception`对象                      |
+|               `getRequest()`                |                      返回`request`对象                       |
+|               `getResponse()`               |                     返回 `response`对象                      |
+|               `getSession()`                |                      返回`session`对象                       |
+|                 `getOut()`                  |                        返回`out`对象                         |
+|             `getApplication()`              |                    返回`application`对象                     |
+|              `setAttribute()`               |                 为指定范围内的属性设置属性值                 |
+|                                             |                                                              |
 
