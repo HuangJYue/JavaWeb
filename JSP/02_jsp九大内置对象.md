@@ -346,5 +346,7 @@ application.getInitParameter();	返回已命名的参数值
 |                 `getOut()`                  |                        返回`out`对象                         |
 |             `getApplication()`              |                    返回`application`对象                     |
 |              `setAttribute()`               |                 为指定范围内的属性设置属性值                 |
-|                                             |                                                              |
+|             `removeAttribute()`             |                   删除指定范围内的指定属性                   |
+
+#### 2. 读取`web.xml`配置信息中的`config`对象
 
