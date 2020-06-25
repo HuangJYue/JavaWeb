@@ -350,3 +350,75 @@ application.getInitParameter();	返回已命名的参数值
 
 #### 2. 读取`web.xml`配置信息中的`config`对象
 
+-   `config`对象主要用于取得服务器的配置信息
+-   通过`pageContext`对象中的`getServeltConfig()`方法可以获取一个`config`对象
+    -   当一个`Servlet`对象初始化时，容器把某些信息通过`config`对象传递给这个`Servlet`
+
+常用方法：
+
+|           方法            |                             说明                             |
+| :-----------------------: | :----------------------------------------------------------: |
+|   `getServletContext()`   |                     获取`Servlet`上下文                      |
+|    `getServletName()`     |                    获取`Servlet`服务器名                     |
+|   `getInitParameter()`    | 获取服务器所有初始化参数名称，返回值为`java.util.Enumeration` |
+| `getInitParameterNames()` |                 获取服务器中`name`参数的属性                 |
+
+#### 3. 应答或请求的`page`对象
+
+-   `page`对象代表`JSP`本身，只有在`JSP`页面内才是合法的
+-   `page`对象本质上是包含当前`servelt`接口引用的变量，可以看作是`this`关键字的别名
+
+使用方法：
+
+|        方法        |              说明              |
+| :----------------: | :----------------------------: |
+|    `getClass()`    |      返回当前`Object`的类      |
+|    `hashCode()`    |    返回该`Object`的哈希代码    |
+|    `toString()`    |   把该`object`类转换成字符串   |
+| `equals(Object o)` | 比较该对象和指定的对象是否相等 |
+
+#### 4. 捕获异常的`exception`对象
+
+-   `exception`对象处理`JSP`文件执行时发生的所有错误和异常
+-   只有在`page`指令中设置为`isErrorPage`属性值为`true`的页面才可以被使用，
+-   在一般的`JSP`页面中使用该对象将无法编译`JSP`文件
+
+使用方法：
+
+|          方法           |                说明                 |
+| :---------------------: | :---------------------------------: |
+|     `getMessage()`      | 返回`exception`对象的异常信息字符串 |
+| `getLocalizedmessage()` |        返回本地化的异常错误         |
+|      `toString()`       |   返回关于异常错误的简单信息描述    |
+|   `fillStackTrace()`    |      重写异常错误的栈执行轨迹       |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
