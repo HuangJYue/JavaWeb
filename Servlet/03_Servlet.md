@@ -32,9 +32,29 @@
 
 ### 二、`Servlet`生命周期
 
+`servlet`遵循一定的生命周期，`servlet`生命周期由`servlet`容器管理，包括一下步骤：
 
+-   加载`servlet`，执行一次
 
+-   创建`servlet`实例，执行一次
 
+    加载`servlet`类时，`servlet`容器会创建一个`servlet`实例。通常只会创建一个`servlet`实例，并且在同一个`servlet`实例上执行对该`servlet`的并发请求
+
+-   调用`servlet`的`init`方法，执行一次
+
+    第一个`servlet`被创建时，会调用`init()`方法，该方法允许`servlet`在处理第一个请求之前初始化自己
+
+-   调用`servlet service()`方法，`HTTP`每执行一次请求，就加载到`servlet`
+
+    每一个收到的`servlet`请求，都会调用`servlet service()`方法；`HttpServlet`通常会调用`doGet()`和`doPost()`等方法
+
+    ==只要`servlet`在`servlet`容器中处于活动状态，就可以调用`service()`方法==
+
+-   调用`servlet`的`destory()`方法
+
+    当一个`servlet`被`servlet`容器销毁时或者容器关闭、容器在运行时重新加载整个`web`应用程序，则`servlet`将会被销毁
+
+<img src="/home/huangyue/JavaWeb/pic/08.png" style="zoom:80%;" />
 
 
 
