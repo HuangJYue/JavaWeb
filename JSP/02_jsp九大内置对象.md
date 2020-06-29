@@ -27,7 +27,7 @@ http://localhost:8080/JavaWeb_war_exploded/deal.jsp?id=1&user=huang&pwd=123
 %>
 ```
   -   若指定的参数不存在，将返回`null`
-  -   若未指定参数值，返回空字符串“”
+  -   若未指定参数值，返回空字符串
 
 #### 2. 在作用域中管理属性
 
