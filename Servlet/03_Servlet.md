@@ -32,6 +32,8 @@
 
 ### 二、`Servlet`生命周期
 
+<img src="/home/huangyue/JavaWeb/pic/09.png" alt="09" style="zoom:75%;" />
+
 `servlet`遵循一定的生命周期，`servlet`生命周期由`servlet`容器管理，包括一下步骤：
 
 -   加载`servlet`，执行一次
@@ -56,6 +58,57 @@
 
 <img src="/home/huangyue/JavaWeb/pic/08.png" style="zoom:80%;" />
 
+### 三、`Servlet`处理用户请求的流程
+
+<img src="/home/huangyue/JavaWeb/pic/010.png" alt="010"  />
+
+
+
+
+
+### 四、`ServletConfig`和`ServletContext`
+
+#### 1. `ServletConfig`接口
+
+Tomcat初始化一个`servlet`时，会将该`Servlet`配置信息封装到`ServletConfig`对象中
+
+方法：
+
+|                  方法                  |                         说明                          |
+| :------------------------------------: | :---------------------------------------------------: |
+| `String getInitParameter(String name)` |       根据初始化参数名返回相对应的初始化参数值        |
+| `Enumeration getInitParameterNames()`  | 返回一个`Enumeration`对象，其中包含所有初始化的参数名 |
+|  `ServletContext getServletContext()`  |   返回一个代表当前`web`  应用的`ServletContext`对象   |
+|       `String getServletName()`        |                  返回`Servlet`的名字                  |
+
+#### 2.`ServletContext`接口
+
+封装当前`web`应用的所有信息，可以利用该对象获取`web`应用程序的初始化信息、读取资源文件等
+
+### 五、`HttpServletRequest`
+
+`HttpServletRequest`方法主要作用是封装`HTTP`请求消息，该接口中定义了获取请求行、请求头和请求消息
+
+#### 1. 获取请求参数
+
+|                    方法                    |                             说明                             |
+| :----------------------------------------: | :----------------------------------------------------------: |
+|     `String getParameter(String name)`     | 获取某个指定名称的参数值；若请求消息中没有包含指定名称的参数，返回`null`；若未设置值，则返回空字符串；若有多个参数，返回第一个出现的参数 |
+| `String[] getParameterValues(String naem)` | 请求信息中包含多个相同名称的参数，若要获得统一参数名所对应的所有参数值，使用该方法，返回一个`String `类型的数组 |
+|     `Enumeration getParameterNames()`      | 返回一个包含请求信息中所有参数名的`Enumeration`对象；可以对请求消息中的所有参数进行遍历处理 |
+|          `Map getParameterMap()`           |      将请求消息中所有参数名和值装入一个`Map`对象中返回       |
+
+#### 2. `RequestDispatcher`实现请求转发
+
+```jsp
+RequestDispatcher getRequestDispatcher(String path)
+```
+
+-   返回封装了某条路径所指定资源的`RequestDisptcher`对象
+-   `path`必须以`/`开头，表示当前`web`应用的根目录
+-   传递的资源也可以是`WEB-INF`目录中的文件
+
+获取`RequestDisptcher`对象后，要通知其他`web`资源处理当前的`Servlet`请求
 
 
 
@@ -90,17 +143,32 @@
 
 
 
-#### 1. `Servlet`接口
 
-在开发中，任何一个`Servlet`对象都要直接或间接实现`javax.servlet.Servlet`接口
 
-五个方法：
 
-|                             方法                             |                             说明                             |
-| :----------------------------------------------------------: | :----------------------------------------------------------: |
-|           `publiv void init(ServletConfig config)`           | `Servlet`实例化后，`Servlet`容器调用该方法来完成初始化工作（出生之后，仅调用一次） |
-| `public void service(ServletRequest request,ServletResponse response)` |             处理客户端请求，每次请求时都会被调用             |
-|                   `public void destory()`                    | `Servelt`对象在`Servelt`容器内被移除时，容器调用该方法，以便释放资源（临死之前，仅调用一次） |
-|          `public ServletConfig getServletConfig()`           |   用于获取`Servlet`对象的配置信息，返回`ServletConfig`对象   |
-|               `public String getServletInfo()`               |        返回有关`Servlet`的信息，是纯文本格式的字符串         |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
