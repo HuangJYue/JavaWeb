@@ -1,0 +1,14 @@
+h1,h2,h3{
+    color: blueviolet;
+    font-family: 文泉驿微米黑;
+}
+p{
+    color: deeppink;
+    font-weight: bold;
+    font-size: 24px;
+}
+#border{
+    border: fuchsia;
+    border-radius: 20px;
+    margin:3px;
+}
